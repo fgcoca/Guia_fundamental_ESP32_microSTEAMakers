@@ -1,0 +1,1362 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="En esta web vamos a encontrar contenidos que resultarán útiles para para iniciarnos en la placa ESP32 micro:STEAMakers, desarrollada y distribuida para España por [INNOVA DIDACTIC](https://shop.innovadidactic.com/es/).">
+      
+      
+        <meta name="author" content="Federico Coca">
+      
+      
+        <link rel="canonical" href="https://fgcoca.github.io/Guia_fundamental_ESP32_microSTEAMakers/microSTEAMakers/crea_libreria/">
+      
+      
+        <link rel="prev" href="../wifi_radio/">
+      
+      
+        <link rel="next" href="../../Miscelanea/about/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Como crear una libreria - Guia fundamental ESP32 microSTEAMakers</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#que-es-una-libreria" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Guia fundamental ESP32 microSTEAMakers" class="md-header__button md-logo" aria-label="Guia fundamental ESP32 microSTEAMakers" data-md-component="logo">
+      
+  <img src="../../img/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Guia fundamental ESP32 microSTEAMakers
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Como crear una libreria
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple" aria-label="Modo Oscuro" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo Oscuro" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="light-blue" data-md-color-accent="deep-purple" aria-label="Modo Claro" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo Claro" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fgcoca/Guia_fundamental_ESP32_microSTEAMakers" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Guia_fundamental_ESP32_microSTEAMakers
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Guia fundamental ESP32 microSTEAMakers" class="md-nav__button md-logo" aria-label="Guia fundamental ESP32 microSTEAMakers" data-md-component="logo">
+      
+  <img src="../../img/favicon.png" alt="logo">
+
+    </a>
+    Guia fundamental ESP32 microSTEAMakers
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fgcoca/Guia_fundamental_ESP32_microSTEAMakers" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Guia_fundamental_ESP32_microSTEAMakers
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 micro:STEAMakers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ESP32 micro:STEAMakers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contmicroSM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antes de
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno de programación Microblocks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lib_wifi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MicroBlocks, libreria WiFi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Boardie/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boardie:un tablero virtual para MicroBlocks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prog_uB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programación con MicroBlocks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_ble/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aplicaciones con BLE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ble_inventor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extensión BluetoothLE de App Inventor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mb_inventor_BLE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MicroBlocks + App Inventor + BLE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wifi_radio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFi y Wifi Radio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Como crear una libreria
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Como crear una libreria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#que-es-una-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Que es una libreria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-hace-una-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Que hace una libreria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vamos-a-escribir-una" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vamos a escribir una
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vamos a escribir una">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conversion-a-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversión a libreria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#informacion-de-la-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Información de la libreria
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metodo-sencillo-de-versionando-de-una-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Método sencillo de versionando de una libreria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metodo-avanzado-de-versionando-de-una-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Método avanzado de versionando de una libreria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Método avanzado de versionando de una libreria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#los-cambios-de-color-ayudan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los cambios de color ayudan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aviso-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aviso final
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Miscelanea
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Miscelanea
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Miscelanea/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Miscelanea/lic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Licencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Miscelanea/soft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software utilizado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#que-es-una-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Que es una libreria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-hace-una-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Que hace una libreria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vamos-a-escribir-una" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vamos a escribir una
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vamos a escribir una">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conversion-a-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversión a libreria
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#informacion-de-la-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Información de la libreria
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metodo-sencillo-de-versionando-de-una-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Método sencillo de versionando de una libreria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metodo-avanzado-de-versionando-de-una-libreria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Método avanzado de versionando de una libreria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Método avanzado de versionando de una libreria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#los-cambios-de-color-ayudan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Los cambios de color ayudan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aviso-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aviso final
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Como crear una libreria</h1>
+
+<p>Sección basada en la entrada de la <a href="https://wiki.microblocks.fun/en/home">MicroBlocks Wiki</a> titulada <a href="https://wiki.microblocks.fun/en/create_a_library">How to create a library - by Turgut Guneysu</a> donde se muestra el paso a paso para crear nuestras propias librerias en MicroBlocks.</p>
+<p>En realidad la libreria que vamos a hacer no sirve nada mas que para explicar los pasos a seguir para su creación. No obstante si vamos a traducir las definiciones y procesos descritos en el enlace anterior.</p>
+<h2 id="que-es-una-libreria"><font color="#007575"><strong>Que es una libreria</strong></font><a class="headerlink" href="#que-es-una-libreria" title="Permanent link">¶</a></h2>
+<p>Cuando escribimos código y nos encontramos repitiendo constantemente un conjunto de instrucciones o ciertos procedimientos, puede resultar útil codificarlos una sola vez y convertir el resultado en una libreria o libreria, de modo que nosotros y otros podamos utilizarla más adelante simplemente cargándola y utilizándola en nuestros programas.</p>
+<p>Por lo tanto, una libreria es una colección de código centrada en habilitar un componente, periférico o funcionalidad específicos. Lo importante que distingue a una libreria de un programa es que una libreria es un componente o un bloque de construcción que se utilizará en un programa, pero no es un programa completo en sí misma.</p>
+<p>Las librerias se pueden crear utilizando el entorno de desarrollo integrado (IDE) del lenguaje de programación correspondiente o escribiendo código en el lenguaje fuente original que se utilizó para crear dicho entorno IDE.</p>
+<h2 id="que-hace-una-libreria"><font color="#007575"><strong>Que hace una libreria</strong></font><a class="headerlink" href="#que-hace-una-libreria" title="Permanent link">¶</a></h2>
+<p>Una buena libreria debe:</p>
+<ul>
+<li>Tener un propósito u objetivo específico.</li>
+<li>Implementar una interfaz de usuario limpia.</li>
+<li>No hacer cosas irrelevantes.</li>
+</ul>
+<p>Para lograr los objetivos mencionados anteriormente, necesitamos planificar y reflexionar.</p>
+<ul>
+<li><strong>Objetivo:</strong>  </li>
+</ul>
+<p>La libreria debe tener una función específica para lograr un resultado concreto.</p>
+<p>Para ello, debemos pensar en la tarea que se nos ha encomendado y asegurarnos de reducirla a su funcionalidad más importante, que será la que se recoja en la libreria. Ya sea para activar un componente de hardware o para realizar algún tipo de manipulación de datos, el objetivo de la libreria debe ser claro y conciso.</p>
+<ul>
+<li><strong>Interface:</strong>  </li>
+</ul>
+<p>La libreria debe implementar una interfaz de usuario limpia y clara.</p>
+<p>Este aspecto es el más visible y relevante de la libreria. Los usuarios de nuestra libreria interactuarán con nuestro código a través de la interfaz de usuario y juzgarán su usabilidad y claridad en función de esta.</p>
+<p>Para organizar la interfaz de nuestra libreria, debemos tener en cuenta tanto las entradas como las salidas.</p>
+<p>Las entradas constituirán todos los datos que necesitamos de los usuarios para que la libreria pueda realizar su función. Estos se organizarán como parámetros de entrada para nuestra libreria.</p>
+<p>Las salidas son lo que la libreria proporcionará como resultado del procesamiento de las entradas. Algunas librerias solo realizan operaciones que dan lugar a un cambio físico. Otras devuelven un valor claramente definido.</p>
+<p>Es importante tener en cuenta que no todas las funciones de la libreria devuelven siempre un valor.</p>
+<ul>
+<li><strong>Relevancia:</strong>  </li>
+</ul>
+<p>La mayoría de los códigos de la libreria comienzan su vida como una funcionalidad de bloque personalizada codificada por el usuario. Nos damos cuenta de que nos falta alguna característica y escribimos algunos bloques personalizados para solucionarlo. Luego, decidimos que sería útil compartir esta funcionalidad y la convertimos en una libreria.</p>
+<p>Es fácil dejarse llevar y empezar a añadir más y más funcionalidades al código. Esto conduce a un resultado final muy complicado. Lo mejor es planificar lo que hay que hacer y centrarse únicamente en conseguir esa funcionalidad.</p>
+<p>A menudo será necesario desglosar ciertas características y agruparlas para crear la libreria. Estas se presentarán como bloques de funciones relacionadas que realizan diversos aspectos de la misma tarea original.</p>
+<p>Un buen ejemplo es la libreria de pantallas LED de MicroBlocks, que contiene bloques para manipular el panel LED como un agregado o como LEDs individuales, y también tiene la capacidad de mostrar letras y números.</p>
+<div class="admonition warning">
+<p class="admonition-title"> </p>
+<p>Los bloques de una libreria MicroBlocks no deben superar los 1000 bytes de longitud.</p>
+</div>
+<h2 id="vamos-a-escribir-una"><font color="#007575"><strong>Vamos a escribir una</strong></font><a class="headerlink" href="#vamos-a-escribir-una" title="Permanent link">¶</a></h2>
+<p>Para simplificar las cosas, nos centraremos en el desarrollo de una libreria sencilla utilizando el IDE de MicroBlocks.</p>
+<p>Dicha libreria no va a tener un propósito especifico, salvo ilustrar el proceso de creación, y solamente va a contener bloques que nos mostrarán mensajes en la pantalla.</p>
+<p>La interface va a contener inicialmente dos bloques definidos así:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/B_ini.png" data-desc-position="bottom"><img alt="Bloques iniciales de la libreria" src="../../img/microSM/library/B_ini.png"></a></p>
+<p>Y esta sería la parte de código de nuestra libreria que denominaremos "Mensajes".</p>
+<p>En una situación real (mas complejidad en el código) es muy conveniente guardar nuestro programa para evitar accidentes que puedan ocasionar la pérdida del trabajo realizado. Por ahora vamos a llamarlo "Mensajes.ubp".</p>
+<h3 id="conversion-a-libreria"><font color="#AA0000">Conversión a libreria</font><a class="headerlink" href="#conversion-a-libreria" title="Permanent link">¶</a></h3>
+<p>El siguiente paso que vamos a dar es convertir el programa "Mensajes.ubp" es una libreria para MicroBlocks.</p>
+<p>Una libreria se define con la extensión ".ubl".</p>
+<p>Lo que tenemos que hacer es tomar el programa con los códigos que hemos creado y convertirlo en un archivo con la extensión adecuada.</p>
+<p>MicroBlocks proporciona la forma de hacerlo fácilmente. Hay que tener activado el modo avanzado y tendremos disponible la opción "Exportar funciones como libreria" en el botón "Fichero".</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/mod_avan_export_lib.png" data-desc-position="bottom"><img alt="Modo avanzado y Exportar funciones como libreria" src="../../img/microSM/library/mod_avan_export_lib.png"></a></p>
+<p>Esta opción nos proporciona una manera de guardar el programa personalizado que hemos creado como un archivo con formato de libreria.</p>
+<p>Escribimos (o se nos mostrará) el nombre "Mensajes" para nuestra Librería y pulsamos Aceptar.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/export_lib.png" data-desc-position="bottom"><img alt="Exportar funciones como libreria" src="../../img/microSM/library/export_lib.png"></a></p>
+<p>Ahora se muestra la ventana de diálogo para guardar archivos donde podremos colocar el archivo de libreria "Mensajes.ubl" en el directorio deseado de nuestro sistema.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/export_lib1.png" data-desc-position="bottom"><img alt="Exportar funciones como libreria" src="../../img/microSM/library/export_lib1.png"></a></p>
+<p>Una vez completado el proceso ya podremos comenzar un nuevo proyecto, ir a la sección Añadir librería del IDE de MicroBlocks y cargar nuestra Librería desde donde la guardamos directamente en cualquier programa que queramos.</p>
+<p>Al compartir el archivo "Mensajes.ubl", proporcionaremos la manera en que otros usuarios puedan utilizar nuestra libreria de la misma manera. Evidentemente, en este caso no lo haremos.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/importar_lib.gif" data-desc-position="bottom"><img alt="Importar la libreria creada" src="../../img/microSM/library/importar_lib.gif"></a></p>
+<h3 id="informacion-de-la-libreria"><font color="#AA0000">Información de la libreria</font><a class="headerlink" href="#informacion-de-la-libreria" title="Permanent link">¶</a></h3>
+<p>Ya sea en un programa nuevo o en el mismo que se ha creado, una vez añadida la libreria al IDE es conveniente cumplimentar la información básica de la misma. Para ello hacemos clic derecho sobre el nombre de la libreria y escogemos la opción marcada:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/acc_info.png" data-desc-position="bottom"><img alt="Acceso a la información de la libreria" src="../../img/microSM/library/acc_info.png"></a></p>
+<p>Haciendo clic en la opción indicada accedemos a la ventana de información de la libreria Mensajes:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/ventana_info.png" data-desc-position="bottom"><img alt="Ventana de información de la libreria" src="../../img/microSM/library/ventana_info.png"></a></p>
+<p>Ahora debemos guardar la información suministrada en la ventana haciendo clic en el botón "Guarda" remarcado en verde en la imagen anterior. Pero <font color="#FF0000"><strong><em>¡CUIDADO!</em></strong></font> porque esto solamente guarda los cambios realizados en la ventana para el proyecto actual. Si queremos guardar los cambios en la libreria, para que estos queden disponibles en la misma, debemos acceder a la opción "Exportar esta libreria" del menú contextual de la misma y sobre escribir la misma.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/ventana_info_arch.png" data-desc-position="bottom"><img alt="Archivar los cambios en la información de la libreria" src="../../img/microSM/library/ventana_info_arch.png"></a></p>
+<h2 id="metodo-sencillo-de-versionando-de-una-libreria"><font color="#007575"><strong>Método sencillo de versionando de una libreria</strong></font><a class="headerlink" href="#metodo-sencillo-de-versionando-de-una-libreria" title="Permanent link">¶</a></h2>
+<p>Una vez creada una libreria, es necesario mantenerla actualizada y, con el tiempo, es posible que tengas varias versiones de la misma.</p>
+<p>Pero antes de nada, algunos comentarios sobre cómo trabajar con scripts destinados a convertirse en librerias:</p>
+<ul>
+<li>No es necesario exportar los bloques personalizados a una libreria para poder probarlos.</li>
+<li>Simplemente utilízalos en el mismo programa donde los has desarrollado y sigue mejorándolos hasta que estén listos.</li>
+</ul>
+<p><mark><strong>Guardar nuestra libreria</strong></mark><br>
+Como hemos hecho en la sección anterior, cuando estemos satisfechos con el progreso, guardaremos nuestra libreria exportándola con la ayuda del menú Archivos.</p>
+<ul>
+<li><strong>Fase n.º 1:</strong></li>
+</ul>
+<p>Durante el proceso de exportación, se solicita un nombre para la libreria. Este nombre será el que se utilizará cuando se cargue la libreria en MicroBlocks.</p>
+<p>El proceso de exportación muestra un cuadro de diálogo y propone el nombre original del programa como predeterminado.</p>
+<p>Aquí, es posible que desees cambiar el nombre propuesto por otro para la libreria y eliminar definitivamente la extensión UBP sugerida.</p>
+<p>Ten en cuenta que no se utiliza ninguna extensión en el cuadro de diálogo Guardar.</p>
+<p>Este primer paso del proceso de exportación crea un archivo de exportación a partir del programa fuente original. También realiza un cambio interno en este archivo para designarlo como archivo de libreria y coloca el nombre que se le da en la primera línea del archivo UBL exportado.</p>
+<ul>
+<li><strong>Fase n.º 2:</strong></li>
+</ul>
+<p>En el segundo paso de la exportación, se pedirá un nombre de archivo del sistema para el archivo exportado en el disco del PC.</p>
+<p>La extensión UBL se asignará automáticamente, lo que indica que se trata de un archivo de libreria.</p>
+<p>Ten en cuenta estas diferencias:</p>
+<div class="highlight"><pre><span></span><code>  - El programa inicial era el archivo de script con extensión UBP.
+  - El archivo de libreria exportado tiene la extensión UBL.
+</code></pre></div>
+<p><mark><strong>Cambiar y guardar una versión de nuestra libreria</strong></mark><br>
+Cada vez que necesites cambiar la libreria, debes trabajar con el archivo .UBP. Esa es la fuente original y contiene todos sus bloques.</p>
+<p>Aquí puedes realizar cambios en los bloques existentes, así como crear otros nuevos, según sea necesario. Y puedes probarlos en el mismo programa, sin necesidad de exportarlos.</p>
+<p>Cuando todo esté listo y desees crear otra versión de la libreria, sigue el proceso de exportación:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled="" checked=""><span class="task-list-indicator"></span></label> En el primer paso, puedes mantener el mismo nombre interno de la libreria.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled="" checked=""><span class="task-list-indicator"></span></label> En el segundo paso, al escribir el archivo de la libreria en el disco del PC, puedes nombrarlo con un número de versión; por ejemplo: Mensajes-v01.UBL</li>
+</ul>
+<dl>
+<dt>Para el caso de la libreria "Mensajes", este proceso dará como resultado los siguientes archivos:</dt>
+<dd>
+<p>ARCHIVO ORIGINAL: Mensajes.UBP  </p>
+</dd>
+<dd>
+<p>Archivo Lib: Mensajes.UBL ← primera versión que se guardó</p>
+</dd>
+<dd>
+<p>Archivo Lib: Mensajes-v01.UBL ← siguiente versión que se guardó y a la que se asignó un número de versión.</p>
+</dd>
+</dl>
+<p>Si quieres probar la libreria como tal, inicia un nuevo proyecto y arrastra y suelta cualquiera de los archivos Mensajes.UBL en él. Aparecerán en la sección librerias y podrán utilizarse en el código.</p>
+<p>A medida que avances, es posible que decidas que algunas de las versiones anteriores ya no son necesarias. Por lo tanto, puedes eliminar cualquiera de los archivos UBL anteriores y crear otros nuevos según sea necesario.</p>
+<p>Aunque el proceso descrito puede resultar un poco complicado, es infalible para un usuario de MicroBlocks:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled="" checked=""><span class="task-list-indicator"></span></label> Siempre tendrás tu programa original.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled="" checked=""><span class="task-list-indicator"></span></label> Y siempre tendrás tus versiones de libreria exportadas.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled="" checked=""><span class="task-list-indicator"></span></label> Puedes ir y venir y trabajar con ellas sin preocuparte por perder tu trabajo.</li>
+</ul>
+<p>Después de unos cuantos ciclos y librerias publicadas, podemos empezar a buscar otras formas de editar las librerias.</p>
+<h2 id="metodo-avanzado-de-versionando-de-una-libreria"><font color="#007575"><strong>Método avanzado de versionando de una libreria</strong></font><a class="headerlink" href="#metodo-avanzado-de-versionando-de-una-libreria" title="Permanent link">¶</a></h2>
+<p>Existe otro método útil para añadir nuevos bloques a una libreria sin tener que volver al código fuente original del proyecto.</p>
+<p>Empieza creando un nuevo proyecto e importando la libreria en la que estás trabajando. Para ello, arrastra y suelta el archivo UBL en el IDE.</p>
+<p>Crea un nuevo bloque en la categoría "Mis bloques" y prueba su funcionamiento.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/nuevo_bloq.png" data-desc-position="bottom"><img alt="Creación de un nuevo bloque para añadir a la libreria" src="../../img/microSM/library/nuevo_bloq.png"></a></p>
+<p>Ahora viene la parte mágica:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled="" checked=""><span class="task-list-indicator"></span></label> Si aún no se muestra, haz clic con el botón derecho en el bloque nuevo y selecciona "Mostrar definición de bloque". También puedes hacer clic con el botón derecho en el nombre de la categoría Mis bloques y seleccionar "Mostrar todas las definiciones de bloques".</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled="" checked=""><span class="task-list-indicator"></span></label> Arrastra la definición del bloque nuevo (la definición de bloque es la pila de bloques con un bloque con sombrero morado en la parte superior) y suéltala sobre el nombre de tu libreria en la paleta. ¡El bloque desaparecerá de "Mis bloques" y aparecerá en la libreria!</p>
+</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/nuevo_bloq_agregado.png" data-desc-position="bottom"><img alt="Añadir el nuevo bloque a la libreria" src="../../img/microSM/library/nuevo_bloq_agregado.png"></a></p>
+<p>En la animación siguiente observamos como el bloque ha desaparecido de "Mis bloques" y se ha colocado como parte de la libreria.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/nuevo_bloq_agregado.gif" data-desc-position="bottom"><img alt="Añadir el nuevo bloque a la libreria" src="../../img/microSM/library/nuevo_bloq_agregado.gif"></a></p>
+<p>Cuando tengas todo listo, puedes volver a exportar la libreria con un nuevo número de versión. Puede conservar varias versiones antiguas por si deseas volver a alguna de ellas.</p>
+<div class="admonition info">
+<p class="admonition-title"><strong>NOTA:</strong></p>
+<p>Es <strong>muy importante que</strong>, al arrastrar y soltar el bloque recién creado en el nombre de la libreria en el menú "Librerias" de la izquierda, <strong>coloques el puntero del ratón exactamente sobre el nombre de la libreria que aparece en el menú</strong>. <strong>No basta</strong> con que el <strong>script</strong> copiado se <strong>superponga al nombre de la libreria</strong> que aparece en el menú: <strong>el cursor del ratón debe estar dentro de él</strong>.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/nuevo_bloq_agregado1.png" data-desc-position="bottom"><img alt="Añadir el nuevo bloque a la libreria" src="../../img/microSM/library/nuevo_bloq_agregado1.png"></a></p>
+</div>
+<h3 id="los-cambios-de-color-ayudan"><font color="#AA0000">Los cambios de color ayudan</font><a class="headerlink" href="#los-cambios-de-color-ayudan" title="Permanent link">¶</a></h3>
+<p>A medida que sigues el ejemplo anterior, debes prestar atención a los cambios de color de los bloques. Estos son útiles para seguir el proceso.</p>
+<p>Cuando cargas "Mensajes", el nombre de la libreria en el menú y sus bloques son de color verde. El color de la libreria depende de la funcionalidad que proporcionan los bloques y, por lo general, lo asignan los desarrolladores de MicroBlocks al incorporar la libreria al IDE. Las diferentes librerias tendrán diferentes colores.</p>
+<p>Cuando creas tu nuevo bloque personalizado en la categoría Mis bloques, el bloque recién creado tiene el mismo color que la categoría Mis bloques: azul.</p>
+<p>Al arrastrar y soltar este bloque en el nombre de la libreria "Mensajes" en la sección del menú "Librerias", y se convierte en parte de tu libreria, cambia de color a verde, el color de tu libreria.</p>
+<p>En "Mensajes-v1.2" se ha cambiado el color a rojo para distinguirla de la versión anterior.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/library/Mensajes-v1.2.png" data-desc-position="bottom"><img alt="Mensajes-v1.2" src="../../img/microSM/library/Mensajes-v1.2.png"></a></p>
+<h3 id="aviso-final"><font color="#AA0000">Aviso final</font><a class="headerlink" href="#aviso-final" title="Permanent link">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title"> </p>
+<p>Este método de actualización de la libreria no conserva el archivo UBP original. En su lugar, se crea un archivo UBP temporal exportando la libreria cargada. La libreria exportada recibe el mismo nombre y cualquier bloque nuevo se añade directamente a este archivo. A continuación, es necesario realizar otra exportación para capturar las últimas modificaciones.
+Una vez completado, se obtiene una libreria recién actualizada, sin embargo, no hay un archivo UBP correspondiente que lo incluya todo. En su lugar, se obtiene la última versión del archivo UBL para la libreria. Todas las actualizaciones futuras se realizarán a partir de este archivo.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © Copyright y copia; 2025 Federico Coca <a href="#consent">Cambiar configuración de cookies</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden="">
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+
+
+<h4>Consentimiento de cookies</h4>
+<p>Se utilizan cookies para reconocer las visitas repetidas y sus preferencias, así como para medir la eficacia de nuestra documentación y si los usuarios encuentran lo que buscan. Al aceptar, nos ayuda a mejorar nuestra documentación.</p>
+<input class="md-toggle" type="checkbox" id="__settings">
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+    
+      
+    
+    
+      
+        
+  
+  
+    
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="github" checked="">
+      <span class="task-list-indicator"></span>
+      GitHub
+    </label>
+  </li>
+
+      
+    
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">Aceptar</button>
+    
+    
+    
+  
+    
+    
+      <button type="reset" class="md-button md-button--primary">Rechazar</button>
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">Gestionar cookies</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script>
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../plugins/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

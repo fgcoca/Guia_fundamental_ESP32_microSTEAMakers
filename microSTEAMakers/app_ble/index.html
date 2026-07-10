@@ -1,0 +1,1369 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="En esta web vamos a encontrar contenidos que resultarán útiles para para iniciarnos en la placa ESP32 micro:STEAMakers, desarrollada y distribuida para España por [INNOVA DIDACTIC](https://shop.innovadidactic.com/es/).">
+      
+      
+        <meta name="author" content="Federico Coca">
+      
+      
+        <link rel="canonical" href="https://fgcoca.github.io/Guia_fundamental_ESP32_microSTEAMakers/microSTEAMakers/app_ble/">
+      
+      
+        <link rel="prev" href="../prog_uB/">
+      
+      
+        <link rel="next" href="../ble_inventor/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Aplicaciones con BLE - Guia fundamental ESP32 microSTEAMakers</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#libreria-ble-scanner" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Guia fundamental ESP32 microSTEAMakers" class="md-header__button md-logo" aria-label="Guia fundamental ESP32 microSTEAMakers" data-md-component="logo">
+      
+  <img src="../../img/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Guia fundamental ESP32 microSTEAMakers
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Aplicaciones con BLE
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple" aria-label="Modo Oscuro" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo Oscuro" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="light-blue" data-md-color-accent="deep-purple" aria-label="Modo Claro" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo Claro" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fgcoca/Guia_fundamental_ESP32_microSTEAMakers" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Guia_fundamental_ESP32_microSTEAMakers
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Guia fundamental ESP32 microSTEAMakers" class="md-nav__button md-logo" aria-label="Guia fundamental ESP32 microSTEAMakers" data-md-component="logo">
+      
+  <img src="../../img/favicon.png" alt="logo">
+
+    </a>
+    Guia fundamental ESP32 microSTEAMakers
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fgcoca/Guia_fundamental_ESP32_microSTEAMakers" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Guia_fundamental_ESP32_microSTEAMakers
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introducción
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 micro:STEAMakers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ESP32 micro:STEAMakers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contmicroSM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antes de
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno de programación Microblocks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lib_wifi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MicroBlocks, libreria WiFi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Boardie/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boardie:un tablero virtual para MicroBlocks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prog_uB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programación con MicroBlocks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aplicaciones con BLE
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aplicaciones con BLE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#libreria-ble-scanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Libreria BLE Scanner
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Libreria BLE Scanner">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scan-received" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scan received
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rssi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RSSI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#address-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        address type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        device name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hastype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hasType
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacion-ble-bidireccional-basica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comunicación BLE bidireccional básica
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacion-ble-radio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comunicación BLE Radio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comunicación BLE Radio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-comunicacion-basica-por-ble-radio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo comunicación básica por BLE Radio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-con-textos-y-numeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo con textos y números
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ble_inventor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extensión BluetoothLE de App Inventor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mb_inventor_BLE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MicroBlocks + App Inventor + BLE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wifi_radio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFi y Wifi Radio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crea_libreria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Como crear una libreria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Miscelanea
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Miscelanea
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Miscelanea/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Miscelanea/lic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Licencias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Miscelanea/soft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software utilizado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#libreria-ble-scanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Libreria BLE Scanner
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Libreria BLE Scanner">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scan-received" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scan received
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rssi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RSSI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#address-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        address type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        device name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hastype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hasType
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacion-ble-bidireccional-basica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comunicación BLE bidireccional básica
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacion-ble-radio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comunicación BLE Radio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comunicación BLE Radio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-comunicacion-basica-por-ble-radio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo comunicación básica por BLE Radio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-con-textos-y-numeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo con textos y números
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Aplicaciones con BLE</h1>
+
+<h2 id="libreria-ble-scanner"><font color="#007575"><strong>Libreria BLE Scanner</strong></font><a class="headerlink" href="#libreria-ble-scanner" title="Permanent link">¶</a></h2>
+<p>Vamos a describir los bloques de la libreria para finalmente ver un ejemplo de uso.</p>
+<h3 id="scan-received"><font color="#AA0000">scan received</font><a class="headerlink" href="#scan-received" title="Permanent link">¶</a></h3>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/wifi/scriptImage32272456.png" data-desc-position="bottom"><img alt="" src="../../img/microSM/wifi/scriptImage32272456.png"></a></p>
+<p>Este bloque se utiliza para detectar avisos BLE. Cuando se detecta una exploración, la variable interna <a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/wifi/scriptImage33350812.png" data-desc-position="bottom"><img alt="" src="../../img/microSM/wifi/scriptImage33350812.png"></a> se rellena con toda la información BLE relevante. Todos los demás bloques de la biblioteca extraen partes de la información BLE del contenido de esta variable.</p>
+<h3 id="rssi"><font color="#AA0000">RSSI</font><a class="headerlink" href="#rssi" title="Permanent link">¶</a></h3>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/wifi/scriptImage32423878.png" data-desc-position="bottom"><img alt="" src="../../img/microSM/wifi/scriptImage32423878.png"></a></p>
+<p>RSSI son las siglas en inglés de Indicador de Intensidad de Señal Recibida. Es la intensidad de la señal tal y como se ve en el dispositivo receptor, por ejemplo, un smartphone. La intensidad de la señal depende de la distancia y del valor de la potencia de emisión. Con la máxima potencia de emisión (+4 dBm), el RSSI oscila entre -26 (unos pocos centímetros) y -100 (40-50 m de distancia).
+Esta información puede utilizarse para calcular la distancia entre el dispositivo emisor y el dispositivo receptor. Un ejemplo de ello puede verse en la imagen "Dispositivos emparejados y resultado BLE Scanner" siguiente:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/BLE_scan.png" data-desc-position="bottom"><img alt="Dispositivos emparejados y resultado BLE Scanner" src="../../img/microSM/BLE_scan.png"></a>  </p>
+<p>donde la aplicación BLE Scanner muestra las distancias reales de los dispositivos detectados.</p>
+<h3 id="address"><font color="#AA0000">address</font><a class="headerlink" href="#address" title="Permanent link">¶</a></h3>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/wifi/scriptImage32449378.png" data-desc-position="bottom"><img alt="" src="../../img/microSM/wifi/scriptImage32449378.png"></a></p>
+<p>Una dirección Bluetooth, a veces denominada dirección MAC Bluetooth, es un valor de 48 bits que identifica de forma exclusiva un dispositivo Bluetooth.</p>
+<p>Una dirección pública de dispositivo es un identificador único global de 48 bits, que consta de dos campos:</p>
+<ul>
+<li>Los 24 bits más significativos se denominan Identificador Único Organizativo, y su finalidad es identificar a cada empresa. Es administrado por la Autoridad de Registro del IEEE.</li>
+<li>Los 24 bits menos significativos son asignados por la empresa, y sirven para identificar cada dispositivo.</li>
+</ul>
+<h3 id="address-type"><font color="#AA0000">address type</font><a class="headerlink" href="#address-type" title="Permanent link">¶</a></h3>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/wifi/scriptImage32470747.png" data-desc-position="bottom"><img alt="" src="../../img/microSM/wifi/scriptImage32470747.png"></a></p>
+<p>Existen dos tipos principales de direcciones Bluetooth: <strong>públicas</strong> y <strong>aleatorias</strong>.</p>
+<p>Una <strong>dirección pública Bluetooth</strong> es una dirección fija global que debe registrarse en el IEEE. Esta dirección nunca cambia y se garantiza que es única para un dispositivo Bluetooth.</p>
+<p>Las <strong>direcciones aleatorias</strong> son más populares que las públicas, ya que no requieren registro en el IEEE. Una dirección aleatoria es un identificador que está</p>
+<ul>
+<li>programado en el dispositivo o</li>
+<li>generado en tiempo de ejecución (dependiendo del subtipo).</li>
+</ul>
+<p>Dirección estática aleatoria</p>
+<p>Este tipo específico de dirección Bluetooth es una alternativa popular a las direcciones públicas, ya que su uso no conlleva ningún coste.</p>
+<p>Las direcciones estáticas aleatorias pueden utilizarse de dos maneras:</p>
+<ul>
+<li>Puede ser asignada y fijada para toda la vida del dispositivo.</li>
+<li>Puede cambiarse en el arranque. Sin embargo, no se puede cambiar durante el tiempo de ejecución.</li>
+</ul>
+<p>Una Dirección de Dispositivo Aleatoria es una característica de privacidad del protocolo BLE, y ayuda a prevenir el rastreo de un dispositivo.</p>
+<h3 id="device-name"><font color="#AA0000">device name</font><a class="headerlink" href="#device-name" title="Permanent link">¶</a></h3>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/wifi/scriptImage32492045.png" data-desc-position="bottom"><img alt="" src="../../img/microSM/wifi/scriptImage32492045.png"></a></p>
+<p>Dado que sería bastante difícil para un usuario identificar un dispositivo utilizando sólo su dirección, BLE proporciona la propiedad <em>Nombre de dispositivo</em>, que es un nombre amigable utilizado para etiquetar un dispositivo.</p>
+<p>Las especificaciones BLE definen el nombre del dispositivo como un campo de 20 bytes. Sin embargo, debido a las limitaciones de longitud de los paquetes, a menudo puede ser necesario utilizar un nombre más corto.</p>
+<p>Existen dos tipos de nombre para BLE:</p>
+<ul>
+<li>Nombre local completo: tipo 9</li>
+<li>Nombre local abreviado: tipo 8</li>
+</ul>
+<h3 id="hastype"><font color="#AA0000">hasType</font><a class="headerlink" href="#hastype" title="Permanent link">¶</a></h3>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/wifi/scriptImage32509117.png" data-desc-position="bottom"><img alt="" src="../../img/microSM/wifi/scriptImage32509117.png"></a></p>
+<p>Este bloque se utiliza internamente para escanear el paquete BLE y ver si contiene un nombre del tipo deseado.</p>
+<h3 id="ejemplo"><font color="#AA0000">Ejemplo</font><a class="headerlink" href="#ejemplo" title="Permanent link">¶</a></h3>
+<p>Este programa está basado en el programa de ejemplo proporcionado en el Fichero/Abre/Ejemplos/Red/BLE Scanner Demo. Se ha mejorado para mostrar toda la información encontrada, así como una lista de todos los dispositivos detectados al final.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/BLE_Scanner_Demo.png" data-desc-position="bottom"><img alt="Ejemplo BLE Scanner Demo mejorado" src="../../img/microSM/BLE_Scanner_Demo.png"></a></p>
+<p><em><a href="../programas/BLE_Scanner_Demo.ubp">Descargar programa</a></em></p>
+<h2 id="comunicacion-ble-bidireccional-basica"><font color="#007575"><strong>Comunicación BLE bidireccional básica</strong></font><a class="headerlink" href="#comunicacion-ble-bidireccional-basica" title="Permanent link">¶</a></h2>
+<p>Veamos algunos ejemplos de uso de Bluetooth para comunicarnos con la placa desde un móvil. Utilizaremos la APP <strong>Serial Bluetooth Terminal</strong> descrita en la entrada "Comunicaciones Bluetooth" de la opción "Principal" del menú.</p>
+<div class="admonition info">
+<p class="admonition-title">Importante</p>
+<p>Para que el programa creado en MicroBlocks se guarde en la placa es necesario tener establecida la conexión entre el IDE y la placa.<br>
+Cuando queremos transmitir datos entre la APP y la placa debemos establecer la conexión entre ambas y para ello no podemos tener establecida la conexión entre el IDE y la placa. No es posible tener dos conexiones establecidas con la misma placa.<br>
+Si se da esta circunstancia cuando tratemos de establecer la conexión esta se perderá de manera inmediata.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/com_app_placa_perd.png" data-desc-position="bottom"><img alt="Comunicación APP a placa perdida" src="../../img/microSM/com_app_placa_perd.png"></a>  </p>
+</div>
+<p>Desde MicroBlocks creamos y llevamos a la placa el siguiente programa:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/com_bi_base.png" data-desc-position="bottom"><img alt="Comunicación bidireccional básica" src="../../img/microSM/com_bi_base.png"></a></p>
+<p><em><a href="../programas/comunicacion_bidireccional_base.ubp">Descargar programa</a></em></p>
+<p>El programa realiza un desplazamiento de la cadena de texto recibida en la pantalla de la micro:STEAMakers y envia la cadena que se muestra al pulsar el botón A. El intercambio de mensajes se realiza desde la APP citada.</p>
+<p>Con la APP abierta y la conexión realizada enviamos el mensaje que vemos en la captura.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/com_app_placa.png" data-desc-position="bottom"><img alt="Comunicación APP a placa" src="../../img/microSM/com_app_placa.png"></a>  </p>
+<p>Tras pulsar el botón de enviar el mensaje comienza a aparecer en la pantalla.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/com_app_placa.gif" data-desc-position="bottom"><img alt="Comunicación placa a APP" src="../../img/microSM/com_app_placa.gif"></a>  </p>
+<p>Si ahora pulsamos el botón de la placa en la APP se recibe e mensaje que esta envia:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/com_placa_app.png" data-desc-position="bottom"><img alt="Comunicación placa a APP" src="../../img/microSM/com_placa_app.png"></a>  </p>
+<h2 id="comunicacion-ble-radio"><font color="#007575"><strong>Comunicación BLE Radio</strong></font><a class="headerlink" href="#comunicacion-ble-radio" title="Permanent link">¶</a></h2>
+<p>Esta libreria permite intercambiar mensajes de forma sencilla entre placas compatibles con Bluetooth Low Energy (BLE).</p>
+<p>Es una libreria similar a la libreria 'Radio', pero los mensajes se envían a través de notificaciones BLE en lugar del sistema Nordic de radio. "Nordic Radio System" se refiere a un sistema de comunicaciones por radio desarrollado por Nordic Semiconductor, una empresa noruega especializada en soluciones de conectividad inalámbrica de bajo consumo. En <a href="https://docs.nordicsemi.com/bundle/ncs-2.5.3/page/nrf/index.html">Nordic,nRF-Radio</a> está disponible la documentación técnica de estos dispositivos.</p>
+<p>Un mensaje puede contener una cadena, un número o ambos. Los mensajes son recibidos por todas las placas del mismo grupo de radio BLE que el remitente. Los bloques siguientes se especializan en esta tarea.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/B_enviar_BEL_Radio.png" data-desc-position="bottom"><img alt="Bloques BLE Radio para enviar mensajes" src="../../img/microSM/B_enviar_BEL_Radio.png"></a>  </p>
+<p>Existe también bloques para determinar si se ha recibido un mensaje a través de BLE y el tipo de mensaje recibido.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/B_recibir_BEL_Radio.png" data-desc-position="bottom"><img alt="Bloques BLE Radio para saber si se han recibido mensajes" src="../../img/microSM/B_recibir_BEL_Radio.png"></a>  </p>
+<p>La comunicación entre dispositivos solamente es posible si se encuientran en el mismo grupo BLE, lo que se establece con el bloque siguiente:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/B_grupo_BEL_Radio.png" data-desc-position="bottom"><img alt="Bloque para fijar el grupo BLE" src="../../img/microSM/B_grupo_BEL_Radio.png"></a>  </p>
+<h3 id="ejemplo-comunicacion-basica-por-ble-radio"><font color="#AA0000">Ejemplo comunicación básica por BLE Radio</font><a class="headerlink" href="#ejemplo-comunicacion-basica-por-ble-radio" title="Permanent link">¶</a></h3>
+<p>Un ejemplo sencillo de envio de un número al azar entre 0 y 9 al pulsar el botón A y de una letra, la B, al pulsar el botón B. El dato recibido se muestra en la otra placa.</p>
+<p>En la imagen siguiente tenemos el programa emisor.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/emisororBLE.png" data-desc-position="bottom"><img alt="Programa emisor BLE" src="../../img/microSM/emisororBLE.png"></a></p>
+<p><em><a href="../programas/emisorBLE.ubp">Programa emisor BLE</a></em>  </p>
+<p>A continuación vemos el programa receptor:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/receptorBLE.png" data-desc-position="bottom"><img alt="Programa receptor BLE" src="../../img/microSM/receptorBLE.png"></a></p>
+<p><em><a href="../programas/receptorBLE.ubp">Programa receptor BLE</a></em>  </p>
+<p>Ejecutando un programa en una placa con BLE y el otro en otra que tenga los botones A y B como la micro:STEAMakers se puede ver el funcionamiento del ejemplo.</p>
+<h3 id="ejemplo-con-textos-y-numeros"><font color="#AA0000">Ejemplo con textos y números</font><a class="headerlink" href="#ejemplo-con-textos-y-numeros" title="Permanent link">¶</a></h3>
+<p>Se trata de crear un ejemplo en el que desde una placa micro:STEAMakers se envía el valor de luminosidad medido por la misma al pulsar el botón A y el de la temperatura medida por el sensor onboard cuando se pulsa el botón B. En ambos casos la información se envia con un par "texto - número" y en la recepción se determina cual se ha enviado determinando el texto del último mensaje recibido y en función de ello mostrará un valor u otro.</p>
+<p>El programa del emisor es muy sencillo, como vemos en la imagen siguiente:</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/emisororBLE2Datos.png" data-desc-position="bottom"><img alt="Programa emisor BLE de dos datos" src="../../img/microSM/emisororBLE2Datos.png"></a></p>
+<p><em><a href="../programas/emisorBLE2Datos.ubp">Programa emisor BLE de dos datos</a></em>  </p>
+<p>El programa receptor tampoco es muy complicado. Mientras no se reciban mensajes BLE en pantalla se estará mostrando una interrogación de color rojo, mientras que los mensajes recibidos se muestran en color verde.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/receptorBLE2Datos.png" data-desc-position="bottom"><img alt="Programa receptor BLE de dos datos" src="../../img/microSM/receptorBLE2Datos.png"></a></p>
+<p><em><a href="../programas/receptorBLE2Datos.ubp">Programa receptor BLE de dos datos</a></em><br>
+A continuación se puede observar el funcionamiento del sistema entre dos placas.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../img/microSM/func_emisor_receptorBLE2Datos.gif" data-desc-position="bottom"><img alt="Programa emisor/receptor BLE de dos datos" src="../../img/microSM/func_emisor_receptorBLE2Datos.gif"></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © Copyright y copia; 2025 Federico Coca <a href="#consent">Cambiar configuración de cookies</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden="">
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+
+
+<h4>Consentimiento de cookies</h4>
+<p>Se utilizan cookies para reconocer las visitas repetidas y sus preferencias, así como para medir la eficacia de nuestra documentación y si los usuarios encuentran lo que buscan. Al aceptar, nos ayuda a mejorar nuestra documentación.</p>
+<input class="md-toggle" type="checkbox" id="__settings">
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+    
+      
+    
+    
+      
+        
+  
+  
+    
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="github" checked="">
+      <span class="task-list-indicator"></span>
+      GitHub
+    </label>
+  </li>
+
+      
+    
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">Aceptar</button>
+    
+    
+    
+  
+    
+    
+      <button type="reset" class="md-button md-button--primary">Rechazar</button>
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">Gestionar cookies</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script>
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs.sticky", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../plugins/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
