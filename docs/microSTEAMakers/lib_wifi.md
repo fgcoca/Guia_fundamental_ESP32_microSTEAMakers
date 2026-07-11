@@ -43,7 +43,7 @@ Hay dos tipos distintos de formas de bloque:
     Asegúrate de utilizar **credenciales WIFI específicas para tu entorno de red**. Las utilizadas aquí son a modo de ejemplo y **NO FUNCIONARÁN**.
 
 ## <FONT COLOR=#007575>**Conéctate a la wifi**</font>
-![](../img/guias/wifi/B_conec.png)  
+![](../img/microSM/B_conec.png)  
 Este bloque se utiliza para iniciar sesión en la red IP local con las credenciales proporcionadas. Una vez completado el proceso de registro, se obtiene una dirección IP del router local.
 
 El siguiente ejemplo demuestra la conexión a la red WIFI local mostrando las credenciales utilizadas. Recuerda sustituir tus propios valores de SSID (Service Set Identifier o nombre público de una red WLAN) y CONTRASEÑA.

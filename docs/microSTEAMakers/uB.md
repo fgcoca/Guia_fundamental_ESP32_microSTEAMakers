@@ -12,7 +12,7 @@
 * [https://microblocks.fun/run-pilot/microblocks.html](https://microblocks.fun/run-pilot/microblocks.html)
 
 ## <FONT COLOR=#007575>**Configuración**</font>
-Si se ejecuta MicroBlocks en un navegador Chromium, Chrome o Edge no es necesario instalar el programa en el ordenador; simplemente haz clic en el botón "Run" (![](../img/guias/ublocks/B_Run.png)) en la parte superior derecha de la barra de navegación.
+Si se ejecuta MicroBlocks en un navegador Chromium, Chrome o Edge no es necesario instalar el programa en el ordenador; simplemente haz clic en el botón "Run" (![](../img/guias/B_Run.png)) en la parte superior derecha de la barra de navegación.
 
 La ejecución de MicroBlocks en el navegador evita la necesidad de instalar una aplicación convencional.
 
@@ -351,7 +351,7 @@ Otra forma de confirmar el estado de conexión de MicroBlocks es haciendo clic e
 
 ![Conexiones BLE y USB](../img/microSM/conex_ble.png) ![Conexiones BLE y USB](../img/microSM/conex_usb.png)
 
-La opción "conéctate a Boardie" la vemos en el apartado [Boardie: un tablero virtual para MicroBlocks](boardie.md).
+La opción "conéctate a Boardie" la vemos en el apartado [Boardie: un tablero virtual para MicroBlocks](https://fgcoca.github.io/Guia_fundamental_ESP32_microSTEAMakers/microSTEAMakers/Boardie/).
 
 Una vez realizada la conexión el aspecto es el siguiente:
 

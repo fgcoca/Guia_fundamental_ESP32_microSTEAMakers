@@ -183,8 +183,8 @@ En la animación siguiente tenemos un ejemplo de uso de los bloques plot, unplot
 En la animación siguiente tenemos un ejemplo de uso de los bloques muestra caracter y color rva. El ejemplo muestra la palabra 'Hola' caracter a caracter en diferentes colores y tras dos segundos muestra de forma intermitente el caracter '!' en un color RGB aleatorio. Mientras en el IDE se muestra la cantidad de rojo, verde y azul que se utiliza para la letra H.
 
 ![Uso de los bloques muestra caracter y color rva](../img/microSM/prog/char_rva.gif)  
- 
-*[Descargar programa](../program/uB/B_display_char_rva.ubp)*
+
+*[Descargar programa](../microSTEAMakers/programas/B_display_char_rva.ubp)*
 
 * **color hsv**. Para establecer colores en formato HSV (siglas del inglés Hue, Saturation, Value – Matiz, Saturación, Valor).
 
@@ -494,7 +494,7 @@ Los bloques para trabajar con listas están en el menú 'Datos' y los disponible
 ![Bloques para Listas. Datos](../img/microSM/listas/lista1.png)  
 
 * ![](../img/microSM/listas/l1.png) Devuelve una lista corta que contiene algunos elementos en inglés. Con las flechas podemos añadir o eliminar elementos a la lista aunquw a partir del cuarto se repite siempre el mismo. Para crear una lista vacía (![](../img/microSM/listas/l2.png)) basta con eliminar el único elemento existente cuando se crea una nueva.
-* ![](../img/microSM/listas/listas/l3.png) Une (concatena) cadenas, listas o matrices de bytes y devuelve el resultado.
+* ![](../img/microSM/listas/l3.png) Une (concatena) cadenas, listas o matrices de bytes y devuelve el resultado. Ambas entradas deben ser del mismo tipo.
 * ![](../img/microSM/listas/l4.png) Devuelve el carácter [Unicode](https://en.wikipedia.org/wiki/List_of_Unicode_characters) del número dado.
 * ![](../img/microSM/listas/l5.png) Devuelve el enésimo elemento de una lista, cadena o matriz de bytes.
 * ![](../img/microSM/listas/l6.png)  Combina los elementos de una lista en una cadena, opcionalmente se puede usar un carácter delimitador.
@@ -550,7 +550,7 @@ En este otro caso separamos la URL de la descarga de MicroBlocks en partes media
 
 ![](../img/microSM/listas/l21.png)
 
-* ![](../img/microSM/listas/l22.png)  Devuelve el valor Unicode del carácter enésimo de la cadena introducida. El número de caracteres introducido debe estar comprendido entre uno y la longitud de la cadena. Este bloque es el opuesto de ![](../img/programacion/ublocks/uB/listas/l4.png).
+* ![](../img/microSM/listas/l22.png)  Devuelve el valor Unicode del carácter enésimo de la cadena introducida. El número de caracteres introducido debe estar comprendido entre uno y la longitud de la cadena. Este bloque es el opuesto de ![](../img/microSM/listas/l4.png).
 
 ![](../img/microSM/listas/l23.png)
 
@@ -1128,8 +1128,6 @@ El siguiente ejemplo muestra la captura de un programa que hace uso de este bloq
 El siguiente ejemplo muestra la captura de un programa que hace uso de este bloque.
 
 ![Ejemplo de uso de ms gyro deg/s](../img/microSM/ej_gyro.png)
-
-*[Descargar programa](../microSTEAMakers/programas/ej_gyro.ubp)*
 
 * **ms inclinación hacia**. Nos devuelve la inclinación respecto al eje escogido medida en grados. El aspecto del bloque es:
 
